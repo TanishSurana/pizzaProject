@@ -1,0 +1,228 @@
+{% load static %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'style.css' %}">
+        {% block script %}
+        {% endblock %}
+        <script src = "{% static 'main.js' %}"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <title>
+            Pinocchio's Pizza & Subs
+        </title>
+    </head>
+    <body style="width: 100%;">
+        <div class="navs">
+            <nav class="navbar navbar-dark navbar-expand-md navigation-clean-button" style="background-color: #D90429;">
+                <div class="container">            
+                    <a class="navbar-brand" href="{% url 'index' %}">
+                        <img src="{% static 'pp.png' %}" width="60" alt="Pinocchio's logo">
+                    </a>
+                    {% block imgas %}
+                    {% endblock %}
+                    <button data-toggle="collapse" class="navbar-toggler border-white" data-target="#navcol-1" style="opacity: 1;"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                        <div class="collapse navbar-collapse" id="navcol-1">
+                            <ul class="nav navbar-nav mr-auto">
+                                <li class="navbar-text actions" role="presentation">
+                                    <a class="nl" href="{% url 'menu' %}">Menu</a>
+                                </li>
+                                {% if user.is_authenticated %}
+                                    <li class="navbar-text actions" role="presentation">
+                                        <a class="nl" href="{% url 'cart' %}">Cart</a>
+                                    </li>
+                                    <li class="navbar-text actions" role="presentation">
+                                        <a class="nl" href="{% url 'ordershow' %}">Orders&nbsp;</a>
+                                    </li>
+                                {% endif %}
+                                {% if user.is_superuser %}
+                                    <li class="navbar-text actions" role="presentation">
+                                        <a class="nl" href="{% url 'adminview' %}">Store Orders</a>
+                                    </li>
+                                {% endif %}
+    
+                            </ul>
+                            {% if user.is_authenticated %}
+                                <div class="navbar-text action" style="margin-right:20px">
+                                    <div class="nav-greet">Hi, {{ user.first_name }}</div>
+                                </div>
+                                <span class="navbar-text actions"> 
+                                    <div class="row">
+                                        <div class="col"><a href="{% url 'logout' %}">Logout</a></div>
+                                    </div>
+                                </span>
+    
+                            {% else %}
+                                <span class="navbar-text actions"> <a class="login blogin" href="#">Log In</a>
+                                    <a class="btn btn-light action-button signup" role="button" href="#">Sign Up</a>
+                                </span>
+                            {% endif %}
+                    
+    
+                        </div>
+                </div>
+            </nav>
+            {% block navs %}
+            {% endblock %}
+        </div>
+    {% block mbody %}
+    {% endblock %}
+    
+    <footer>
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col col-lg-6 col-sm-12" >
+                        <div class="row" >
+                            <div class="container">
+                                <a href="/">
+                                    <img src="{% static 'pp.png' %}" width="150px" alt="Pinocchio's logo">
+                                </a>
+                            </div>
+                        </div>
+        
+                            <p style="margin-top: 20px;">Find us on Twitter @PinocchiosPizz and Instagram @pinocchiospizza1</p>
+                            
+         
+                        <p style="text-align: center;">Sunday 1 pm - 12 midnight<br>Monday - Thursday 11 am - 1 am<br>Friday - Saturday	11 am - 2:30 am*<br></p>
+                    </div>
+                    <div class="col col-lg-6 col-sm-12" >
+                        <div style="margin: 50px; margin-top: 50px;">
+                            <h3>Address</h3>
+                            Pinocchio's Pizza & Subs<br>
+                            74 Winthrop Street<br>
+                            Harvard Square<br><br>
+                            
+                            <h3>Contact</h3>
+                            617-876-4897<br>
+                            pinocchiospizza1@gmail.com<br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                © A webpage made by <b>Tanish Surana</b> for Pinocchio's Pizza and Subs 2020 
+            </div>
+            
+        </div>
+    </footer>
+
+
+
+
+
+
+
+        <div class="bg-modal">
+            <div class="modal-content">
+                <div class="close closelogin">+</div>
+                <div class="modal-card-header">
+                    Log in
+                </div>
+                <hr>
+                <div class="card-body">
+                    <form action="{% url 'login' %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Username</label>
+                          <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required="required" placeholder="Enter Username">
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputPassword1">Password</label>
+                          <input type="password" name="password" class="form-control" id="exampleInputPassword1" required="required" placeholder="Password">
+                        </div>
+                        <button type="submit" class="btn btn-dark bb">Log in</button>
+                      </form>
+                      <div class = "emessage" id="elmessage">
+
+                    </div>
+                      <div style="text-align: center;">
+                        <a href="#" class="lr">Don't have an account? Sign up</a>
+                      </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="bg-modal-r">
+            <div class="modal-content">
+                <div class="close closereg">+</div>
+                <div class="modal-card-header">
+                    Register
+                </div>
+                <hr>
+                <div class="card-body">
+                    <form action="{% url 'register' %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Email address</label>
+                          <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" required="required" placeholder="Enter email">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col">
+                                <label for="firstname">First Name</label>
+                                <input type="text" class="form-control" name="fn" id="firstname" placeholder="First name">
+                            </div>
+                            <div class="col">
+                                <label for="lastname">Last Name</label>
+                                <input type="text" id="lastname" name="ln" class="form-control" placeholder="Last name">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" name="username" id="username" aria-describedby="emailHelp" required="required" placeholder="Enter Username">
+                        </div>
+
+
+                        <div class="form-group">
+                          <label for="password">Password</label>
+                          <input type="password" class="form-control" name="password" id="password" required="required" placeholder="Password">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirm_password">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirm_password" required="required" placeholder="Password">
+                        </div>
+
+                        <div>{{ message }}</div>
+                        <button type="submit" class="btn btn-dark bb">Sign up</button>
+                      </form>
+
+                      <div class="emessage" id="ermessage">
+
+                      </div>
+
+                      <div style="text-align: center;">
+                        <a href="#" class="rl">Have an account? Log in</a>
+                      </div>
+                      
+                </div>
+            </div>
+        </div>
+        {% if ecode == -1 %}
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    document.querySelector(".bg-modal").style.display = "flex";
+                    document.querySelector("#elmessage").innerHTML = "{{ error_message }}";
+                    
+                })
+                
+            </script>
+        {% elif ecode == -2 %}
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    document.querySelector(".bg-modal-r").style.display = "flex";
+                    document.querySelector("#ermessage").innerHTML = "{{ error_message }}";  
+                })
+                
+            </script>
+        {% endif %}
+    </body>
+</html>

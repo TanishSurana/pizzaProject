@@ -1,0 +1,86 @@
+{% extends "orders/layout.html" %}
+
+
+{% block script %}
+{% load static %}  
+  <script src = "{% static 'main2.js' %}"></script>
+{% endblock %}
+
+{% block mbody %}
+
+
+
+
+
+<div class="container">
+  <div class="card-body customize">
+    <div class="customize-header">{{ item.itemname }}</div>
+    <div class="customize-header sub-header">{{ cat|title }}</div>
+    <hr style="border-color: #0275d8; width:80%; margin: 0 auto 10 auto;">
+    <form action="{% url 'add' cat itemname %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+
+          <!--size-->
+          {% if item.sizeEnable %}
+            <label for="sizeSelect">Size</label>
+            <select id='sizeSelect' class="form-control form-control-sm" name="size">
+                <option value="small" data-cost={{ item.smallcost }}>Small &nbsp&nbsp&nbsp$ {{ item.smallcost }}</option>
+                <option value="large" data-cost={{ item.largecost }}>Large &nbsp&nbsp&nbsp{{ item.largecost }}</option>
+            </select>
+          {% endif %}
+
+          <br>
+          <!--toppings-->
+          
+          {% if item.ntoppings != 0 %}
+          <label >Toppings</label>
+          {% endif %}
+
+          {% for nt in tops %}
+              <select id='sizeSelect1' class="form-control form-control-sm" name= {{ nt }}>
+                {% for top in topping %}
+                  <option>{{ top }}</option>
+                {% endfor %}
+            </select>
+            <br>
+          {% endfor %}
+
+          
+
+          <!--extras-->
+            {% if item.extrasEnable %}
+              <label for="extras">Extras</label>
+              <select id='extras' class="form-control form-control-sm" name='extras'>
+                <option value="none" data-cost=0>None</option>
+                {% for ex in extra %}
+                  <option value={{ ex.itemname }} data-cost={{ ex.smallcost }}>
+                    <span>
+                      <div>{{ ex.itemname }}</div>&nbsp&nbsp&nbsp
+                      <div id = "price" style='float: right; font-weight: bold; color:green;'>${{ ex.smallcost }}</div>
+                    </span>
+                  </option>
+                {% endfor %}
+              </select>
+            {% endif %}
+
+          <!--cost for now-->
+          <br>
+              <div class="customize-header">
+                Total: $<span id="cost">{{ item.smallcost }}</span>  
+              </div>
+
+          <!--button-->
+          <button type="submit" class="btn btn-dark bb">Add to Cart</button>
+
+        </div>
+        
+    </form>
+</div>
+</div>
+
+{% endblock %}
+
+
+
+

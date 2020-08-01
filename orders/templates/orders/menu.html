@@ -1,0 +1,77 @@
+{% extends "orders/layout.html" %}
+{% block mbody %}
+<style>
+    .main-message{
+        padding-top: 20px;
+    }
+</style>
+
+{% for cat, catv in category.items %}
+    <div class="main-message" id="{{ cat }}">
+
+        <div class="container">
+            <nav class="navbar navbar-expand-md rounded shadow" style="margin-bottom:20px; background-color: #d90429; color: white; font-size: 17px;filter: blur(0px) brightness(101%);">
+                <div class="container">
+                    <a class="navbar-brand menubrand" href="#">Menu</a>
+                    <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse"
+                        id="navcol-1">
+                        <ul class="nav navbar-nav flex-grow-1 justify-content-between">
+                            {% for cate in category %}
+                                <li class="nav-item" role="presentation"><a class="nav-link aaa" onclick="smoothScroll('{{ cate }}')" href="#">{{ cate|capfirst }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>  
+                </div>
+            </nav>
+        </div>
+        
+        <div class="container">
+            <div class="row">
+                <div class="message col-lg-6 col-sm-12">
+                    <h1 class="dark-main-head">{{ cat|capfirst }}</h1>
+                        <div class="greetings">
+                            This is {{ cat|capfirst }} man
+                        </div>
+                </div>
+                <div class="image-block col-lg-6 col-sm-12">
+                    <div class="bimages toolarge">
+                        <img src="static\{{ cat }}.png" class="bimages" alt="pizza image">
+                    </div>
+                </div>
+            </div>  
+        </div>
+    </div>
+
+
+    <div class="container menuelements">
+        <ul class="list-group">
+            {% for p in catv %}
+            <li class="list-group-item">
+                <span style="font-weight: 500;">{{ p.itemname }}</span>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'customize' cat p.itemname %}" class="btn text-primary border btn-sm customizeButton"  style="float: right;">
+                    {% if p.sizeEnable == True %}
+                        Starting <b>${{ p.smallcost }} </b>
+                    {% else %}
+                        <b>${{ p.smallcost }} </b>
+                    {% endif %}
+                    |  add to cart>
+                    </a>
+                {% else %}
+                    <a onclick="alert('login to add items in cart')" class="btn text-primary border btn-sm customizeButton" style="float: right;">
+                    {% if p.sizeEnable == True %}
+                        Starting <b>${{ p.smallcost }} </b>
+                    {% else %}
+                        <b>${{ p.smallcost }} </b>
+                    {% endif %}
+                    |  add to cart>
+                    </a>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "orders/layout.html" %}
+
+{% block mbody %}
+    <style>
+        body{
+            background-color: white;
+        }
+    </style>
+    <div class="main-message">
+        <div class="container">
+            <div class="row">
+                <div class="message col-lg-6 col-sm-12">
+                    <h1 class="dark-main-head">Welcome to <br>Pinocchio's Pizza and Subs</h1>
+                    {% if user.is_authenticated %}
+                        <div class="greetings">
+                            Hello, {{ user.first_name }}
+                        </div>
+                    {% else %}
+                        <div class="main-links">
+                            <a class="btn btn-dark action-button hhh blogin" role="button" href="#">Login</a>
+                            <a class="btn btn-dark action-button hhh signup" role="button" href="#">Sign Up</a>
+                        </div>
+                    {% endif %} 
+                </div>
+                <div class="image-block col-lg-6 col-sm-12">
+                    <div class="bimages">
+                        <img src="static\pizza.png" class="bimages" alt="pizza image">
+                    </div>
+                </div>
+            </div>  
+        </div>
+    </div>
+
+
+    <div class="main-message w" style="margin-top: 50px; margin-bottom: 50px">
+        <div class="container">
+            <h1 class="dark-main-head w" style="font-weight:300; margin-top: 20px; text-align: center;">We deliver food in 180 seconds!</h1>
+
+            <div class="row" style="text-align: center;">
+                    <div class="message col-lg-6 col-sm-12 hh">
+                        <h2>Just kidding we dont do that. I just need to fill this area to display some catchy message</h2>
+                    </div>
+                    <div class="image-block col-lg-6 col-sm-12" id="myman">
+                        <div class="bimages">
+                            <img src="static\delivery.png" class="bimages" alt="delivery boy image">
+                        </div>
+                    </div>
+            </div>  
+        </div>
+    </div>
+
+    <div class="main-message w">
+        <div class="container">
+            <h1 class="dark-main-head w" style="font-weight:300; margin-top: 20px; text-align: center;">Checkout our Delicious menu</h1>
+            <div class="row" style="text-align: center;">
+                <div class="image-block col-lg-6 col-sm-12">
+                    <div class="bimages">
+                        <img src="static\sub.png" class="bimages" alt="sub image">
+                    </div>
+                </div>
+                <div class="message col-lg-6 col-sm-12 hh">
+                    <h2>We make pizza, subs, salads and many more. I just need to fill this area to display some catchy message. But you can checkout our menu</h2>
+                    <a class="btn btn-primary action-button hhh" id = "menu" style=" margin-top: 10px; background-color:blueviolet;" role="button" href="{% url 'menu' %}">Menu</a>
+                </div>
+            </div>  
+        </div>
+    </div>
+
+
+{% endblock %}

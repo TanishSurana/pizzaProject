@@ -1,0 +1,62 @@
+{% extends "orders/layout.html" %}
+
+
+{% block script %}
+{% load static %}  
+  
+{% endblock %}
+
+{% block mbody %}
+
+
+
+
+
+<div class="container">
+  <div class="card-body customize">
+    <div class="customize-header">Cart</div>
+    <hr style="border-color: #0275d8; width:80%; margin: 0 auto 10 auto;">
+    <form action="{% url 'place'  %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+
+        <ul class="list-group">
+        <!--menuitems-->
+        {% for item in menu %}
+            <li class="list-group-item">{{ item.itemname }} <div style="font-weight: 200;">{{ item.cat }}</div>
+                <div style="float: right; margin-left: 20px; font-weight: bold; color: green;">
+                    ${{ item.cost }}
+                </div>
+                <div style="float: right;">
+                    {% for top in item.toppings.all %}
+                        {{ top }} &nbsp;
+                    {% endfor %}
+
+                    {% for ext in item.extras.all %}
+                        {{ ext.itemname }} &nbsp;
+                    {% endfor %}
+                </div>
+
+            </li>
+        {% endfor %}
+        </ul>
+
+        <br>
+        <!--order total-->
+        <div class="customize-header" style="float: right;">
+            Total: $<span id="cost">{{ cart.cost }}</span>  
+        </div>
+          <!--button-->
+          <button type="submit" class="btn btn-dark bb">Place order</button>
+
+        </div>
+        
+    </form>
+</div>
+</div>
+
+{% endblock %}
+
+
+
+

@@ -1,0 +1,86 @@
+{% extends "orders/layout.html" %}
+
+
+{% block script %}
+{% load static %}  
+  
+{% endblock %}
+
+{% block mbody %}
+
+
+
+
+
+<div class="container">
+    <div class="customize-header" style="color: white; margin-top:30px">Pending Orders</div>
+    {% for order in pords %}
+    <div class="card-body customize" style="margin: 50px 0 50px 0;">
+        <div class="customize-header">Order #{{ order.id }}<div style='float:right;'>Total: ${{ order.cost }}</div></div>
+        <div class="customize-header sub-header" style="margin-bottom:10;">Status: {{ order.status|title }}</div>
+        <div class="customize-header sub-header" style="font-weight: 300; font-size:initial ;margin-bottom:30; margin-top: 0;">Time: {{ order.time }}<br>Date: {{ order.date }}</div>
+        <hr style="border-color: #0275d8; width:80%; margin: 0 auto 10 auto;">
+
+        <ul class="list-group">
+            <!--menuitems-->
+            {% for m in order.items.all %}
+                <li class="list-group-item">{{ m.itemname }} <div style="font-weight: 200;">{{ m.cat }}</div>
+                    <div style="float: right; margin-left: 20px; font-weight: bold; color: green;">
+                        ${{ m.cost }}
+                    </div>
+                    <div style="float: right;">
+                        {% for top in m.toppings.all %}
+                            {{ top }} &nbsp;
+                        {% endfor %}
+    
+                        {% for ext in m.extras.all %}
+                            {{ ext.itemname }} &nbsp;
+                        {% endfor %}
+                    </div>
+    
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endfor %}
+
+    <div class="customize-header" style="color: white; margin-top:30px">Completed Orders</div>
+    {% for order in cords %}
+    <div class="card-body customize" style="margin: 50px 0 50px 0;">
+        <div class="customize-header">Order #{{ order.id }}<div style='float:right;'>Total: ${{ order.cost }}</div></div>
+        <div class="customize-header sub-header">Status: {{ order.status|title }}</div>
+        <div class="customize-header sub-header" style="font-weight: 300; font-size:initial ;margin-bottom:30; margin-top: 0;">Time: {{ order.time }}<br>Date: {{ order.date }}</div>
+
+        <hr style="border-color: #0275d8; width:80%; margin: 0 auto 10 auto;">
+
+        <ul class="list-group">
+            <!--menuitems-->
+            {% for m in order.items.all %}
+                <li class="list-group-item">{{ m.itemname }} <div style="font-weight: 200;">{{ m.cat }}</div>
+                    <div style="float: right; margin-left: 20px; font-weight: bold; color: green;">
+                        ${{ m.cost }}
+                    </div>
+                    <div style="float: right;">
+                        {% for top in m.toppings.all %}
+                            {{ top }} &nbsp;
+                        {% endfor %}
+    
+                        {% for ext in m.extras.all %}
+                            {{ ext.itemname }} &nbsp;
+                        {% endfor %}
+                    </div>
+    
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endfor %}
+
+
+</div>
+
+{% endblock %}
+
+
+
+
